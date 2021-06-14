@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+    <h1>Create new Post</h1>
+
+    {% if app.user %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-primary d-flex align-items-center">
+            <strong>Login to create new post!</strong>
+        </a>
+    {% endif %}
+
+{% endblock %}

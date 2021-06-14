@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block body %}
+    <h1>Posts HUB</h1>
+    <div class="container">
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ post.image|default('https://via.placeholder.com/150') }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{post.title}}</h5>
+                            <p class="card-text">{{post.content}}</p>
+                            <p>{{post.author}}
+                                -
+                                {{post.createdAt |date("d/m/Y")}}</p>
+                            <a href="{{ path('post_show', {'id': post.id}) }}" class="btn btn-primary">Show</a>
+                            {% if app.user == post.author %}
+                                <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn btn-warning">Edit</a>
+                            {% endif %}
+                            </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-info" role="alert">
+                    Oops! No posts found.
+                </div>
+            {% endfor %}
+            {% include 'utils/paginator.html.twig' with { 'p': posts } %}
+        </div>
+    </div>
+
+    {% if app.user %}
+    <a href="{{ path('post_new') }}" class="btn btn-primary">Create new</a>
+    {% else %}
+    <a href="{{ path('app_login') }}" class="btn btn-primary d-flex align-items-center">
+        <strong>Login to create new post!</strong>
+    </a>
+    {% endif %}
+
+{% endblock %}

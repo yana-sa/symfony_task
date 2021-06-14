@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+    {% if app.user == post.author %}
+    <h1>Edit Post</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-warning">{{ button_label|default('Update') }}</button>
+    {{ form_end(form) }}
+
+    <form method="post" action="{{ path('post_delete', {'id': post.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+        <button class="btn btn-danger">Delete</button>
+    </form>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Oops! You cannot edit this post
+        </div>
+    {% endif %}
+
+{% endblock %}

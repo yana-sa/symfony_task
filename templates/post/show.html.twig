@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="{{ post.image|default('https://via.placeholder.com/150') }}" class="card-img-top" alt="...">
+
+                <h1>{{post.title}}</h1>
+                <p class="card-text">{{post.content}}</p>
+                <p>{{post.author}}
+                    -
+                    {{post.createdAt |date("d/m/Y")}}</p>
+            </div>
+        </div>
+    </div>
+
+    {% if app.user == post.author %}
+    <a href="{{ path('post_edit', {'id': post.id}) }}" class="btn  btn-warning">Edit</a>
+    {% endif %}
+{% endblock %}
